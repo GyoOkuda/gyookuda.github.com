@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>The Grid Cowboy</title>
+<!--
+     javascript and html code is Licensed to you,
+     Under NYSL Ver 0.9982 http://www.kmonos.net/nysl/ 
+-->
+
+<script type="text/javascript">
+
+    var fileReader = new FileReader();
+    fileReader.addEventListener('load',
+            function(event){
+                var img = document.createElement("img");
+                img.src = event.target.result;
+                setTimeout(function(){drawGridOnIt(img)},100);
+            }
+        ,false)
+
+
+    function drawGridOnIt(img)  {
+        var canvas = document.getElementById("main");
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img,0,0);
+
+        ctx.beginPath();
+        ctx.rect(canvas.width/3,0,canvas.width/3,canvas.height);
+        ctx.stroke();
+        ctx.rect(0,canvas.height/3,canvas.width,canvas.height/3);
+        ctx.stroke();
+        ctx.rect(0,0,canvas.width,canvas.height);
+        ctx.stroke();
+
+    }
+
+    function loadFile(){
+        var imgfile = document.getElementById("imginput").files[0];
+        fileReader.readAsDataURL(imgfile);
+    }
+
+    window.onload =  function() {
+        document.getElementById("imginput").addEventListener('change',function(){loadFile()},false);
+    }
+    
+</script>
+</head>
+<body>
+<h1>The Grid Cowboy</h1>
+<p>選択した画像に3x3の格子を付けるだけの簡単なお仕事です</p>
+<div>
+<form>
+<input type="file" accept="image/*" id="imginput" />
+</form>
+<canvas id="main"></canvas>
+</div>
+</body>
+</html>
